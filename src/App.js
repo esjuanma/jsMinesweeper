@@ -56,10 +56,11 @@ class App extends React.Component {
       <div className="App">
         <Header />
         <Player onSubmit={this.onUserChange} />
-        {player && (
-          <Game state={player.currentGame} onClick={this.onCellClick} /> &&
-          <button onClick={this.createNewGame}>Create new game</button>
-        )}
+        {player && 
+          <button onClick={this.createNewGame}>Create new game</button>}
+        {player && player.currentGame &&
+          <Game game={player.currentGame} onClick={this.onCellClick} />
+        }
       </div>
     );
   }

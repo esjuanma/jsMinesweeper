@@ -22,12 +22,12 @@ class Cell {
 const newGame = (config) => {
     const board = [];
 
-    for (let i = 0; i < config.columns; i++) {
-        const column = [];
-        for (let j = 0; j < config.rows; j++) {
-            column.push(new Cell());
+    for (let i = 0; i < config.rows; i++) {
+        const row = [];
+        for (let j = 0; j < config.columns; j++) {
+            row.push(new Cell());
         }
-        board.push(column);
+        board.push(row);
     }
 
     const getRandomNumber = (max) => Math.floor((Math.random() * 1000) + 1) % max;
@@ -38,8 +38,8 @@ const newGame = (config) => {
         const x = getRandomNumber(config.columns);
         const y = getRandomNumber(config.rows);
         
-        if (!board[x][y].mine) {
-            board[x][y].setMine();
+        if (!board[y][x].mine) {
+            board[y][x].setMine();
             minesPlanted++;
         }
     }

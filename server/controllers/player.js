@@ -1,8 +1,6 @@
 const { Player } = require('../models/player.js');
 
-exports.get = async (req, res) => {
-    console.log('get');
-    
+exports.get = async (req, res) => {   
     const { email } = req.params;
     
     const player = await Player(email);

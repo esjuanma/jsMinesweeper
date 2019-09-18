@@ -15,7 +15,7 @@ exports.create = async (req, res) => {
 
     const player = await Player(email);
 
-    player.createNewGame(config);
+    await player.createNewGame(config);
 
     res.json(player);
 };

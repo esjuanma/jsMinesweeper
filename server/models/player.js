@@ -62,6 +62,8 @@ class Player {
         }
 
         this.currentGame = newGame(config);
+
+        return this.saveState(this);
     }
 
     init() {
@@ -75,11 +77,15 @@ class Player {
             // Adds attributes
             Object.assign(this, data);
 
-            // Saves data
-            await storage.setItem(this.email, this);
-
+            this.saveState(data);
+            
             resolve(this);
         });
+    }
+    
+    saveState (data) {
+        // Saves data
+        return storage.setItem(this.email, data);
     }
 }
 

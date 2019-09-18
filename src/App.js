@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 
+import Header from './components/Header';
 import Player from './components/Player';
 import GamesList from './components/GamesList';
 import Game from './components/Game';
@@ -9,12 +10,43 @@ class App extends React.Component {
 
   state = {}
 
+  updatePlayerState = (player) => {
+    this.setState({ player });
+  }
+
+  getEmail = () => {
+    return this.state.player.email;
+  }
+
   onUserChange = (email) => {
     fetch(`./api/player/${email}`)
       .then(response => response.json())
-      .then(player => {
-        this.setState({ player });
-      });
+      .then(this.updatePlayerState);
+  }
+
+  createNewGame = () => {
+    const email = this.getEmail();
+    const rows = window.prompt('Rows:', '10');
+    const columns = window.prompt('Columns:', '10');
+    const mines = window.prompt('Mines:', '10');
+
+    const config = {
+      body: JSON.stringify({ email, config: { rows, columns, mines }}),
+      method: 'POST',
+      headers:{
+        'Content-Type': 'application/json'
+      }
+    };
+
+    fetch(`./api/create/`, config)
+      .then(response => response.json())
+      .then(this.updatePlayerState);
+  }
+
+  onCellClick = () => {
+    fetch(`./api/click/${this.getEmail()}`)
+      .then(response => response.json())
+      .then(this.updatePlayerState);
   }
 
   render() {
@@ -22,9 +54,12 @@ class App extends React.Component {
 
     return (
       <div className="App">
-        <h1>Minesweeper</h1>
+        <Header />
         <Player onSubmit={this.onUserChange} />
-        <Game state={player && player.currentGame} />
+        {player && (
+          <Game state={player.currentGame} onClick={this.onCellClick} /> &&
+          <button onClick={this.createNewGame}>Create new game</button>
+        )}
       </div>
     );
   }

@@ -12,5 +12,6 @@ app.use(bodyParser.json());
 
 // Routes
 app.use('/api/player', require('./server/routes/player'));
+app.use('/api/create', require('./server/routes/create'));
 
 app.listen(process.env.PORT || 8080);

@@ -57,6 +57,10 @@ input {
   cursor: pointer;
 }
 
+.game-container td.empty {
+  background: #DDD;
+}
+
 .game-container td.revealed {
   cursor: default;
 }

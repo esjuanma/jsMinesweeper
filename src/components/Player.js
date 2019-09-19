@@ -5,7 +5,12 @@ const Player = (props) => {
 
     const onSubmit = (event) => {
         event.preventDefault();
-        props.onSubmit(userEmail.current.value);
+
+        const email = userEmail.current.value;
+
+        if (email) {
+            props.onSubmit(email);
+        }
     };
 
     return (
@@ -13,10 +18,9 @@ const Player = (props) => {
             <label>
                 Player
                 <input
-                    type="email"
-                    value="mail1234@gmail.com"
-                    ref={userEmail}
-                    placeholder="Type your email" />
+                    type="text"
+                    defaultValue="j.doe@gmail.com"
+                    ref={userEmail} />
             </label>
             <button>Submit</button>
         </form>

@@ -1,4 +1,4 @@
-const { Player } = require('../models/player.js');
+const { Player } = require('../helpers/player.js');
 
 exports.get = async (req, res) => {   
     const { email } = req.params;
@@ -14,6 +14,16 @@ exports.create = async (req, res) => {
     const player = await Player(email);
 
     await player.createNewGame(config);
+
+    res.json(player);
+};
+
+exports.click = async (req, res) => {
+    const { email, x, y } = req.body;
+
+    const player = await Player(email);
+
+    await player.click(x, y);
 
     res.json(player);
 };

@@ -53,7 +53,7 @@ const newBoard = (config) => {
     for (let y = 0; y < config.rows; y++) {
         const row = [];
         for (let x = 0; x < config.columns; x++) {
-            row.push({});
+            row.push({ x, y });
         }
         board.push(row);
     }

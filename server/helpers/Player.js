@@ -27,32 +27,69 @@ class Player {
     endGame() {
         if (this.currentGame) {
             this.currentGame.ended = new Date();
-            this.games.push(this.currentGame);
+            this.currentGame.board.forEach(
+                row => row.forEach(cell => cell.revealed = true)
+            );
         }
     }
 
     createNewGame(config) {
         this.endGame();
+        this.games.push(this.currentGame);
         this.currentGame = newBoard(config);
         return this.saveState(this);
     }
 
-    click(x, y) {
-        const cell = this.currentGame.board[y][x];
+    clickCell(cell) {
         cell.revealed = true;
         cell.mineMark = false;
         cell.questionMark = false;
+    }
+
+    click(x, y) {
+        const cell = this.currentGame.board[y][x];
+
+        if (cell.revealed) return;
+
+        this.clickCell(cell);
 
         if (cell.mine) {
             this.endGame();
+        } else if (cell.value === 0) {
+            traverseBoard({ x, y }, this.currentGame.board)
+                .forEach(({ x, y }) => this.click(x, y));
         }
-
-        return this.saveState(this);
     }
 
     saveState(data) {
         // Saves data
-        return storage.setItem(this.email, data);
+        return storage.setItem(this.email, data || this);
+    }
+
+    filter(board) {
+        return board.map(
+            row => row.map(cell => cell.revealed ? cell : {})
+        );
+    }
+
+    hiddenBoard() {
+        let games = JSON.parse(JSON.stringify(this.games));
+        let currentGame = JSON.parse(JSON.stringify(this.currentGame));
+
+        // Filter boards
+        if (currentGame) {
+            currentGame.board = this.filter(currentGame.board);
+        }
+        games = games.map((game) => {
+            game.board = this.filter(game.board);
+            return game;
+        });
+
+        return {
+            games,
+            currentGame,
+            email: this.email
+        };
     }
 }
 

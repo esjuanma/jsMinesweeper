@@ -5,7 +5,7 @@ exports.get = async (req, res) => {
     
     const player = await Player(email);
     
-    res.json(player);
+    res.json(player.hiddenBoard());
 };
 
 exports.create = async (req, res) => {
@@ -15,7 +15,7 @@ exports.create = async (req, res) => {
 
     await player.createNewGame(config);
 
-    res.json(player);
+    res.json(player.hiddenBoard());
 };
 
 exports.click = async (req, res) => {
@@ -23,7 +23,9 @@ exports.click = async (req, res) => {
 
     const player = await Player(email);
 
-    await player.click(x, y);
+    player.click(x, y);
 
-    res.json(player);
+    await player.saveState();
+
+    res.json(player.hiddenBoard());
 };

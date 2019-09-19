@@ -35,7 +35,9 @@ class Player {
 
     createNewGame(config) {
         this.endGame();
-        this.games.push(this.currentGame);
+        if(this.currentGame) {
+            this.games.push(this.currentGame);
+        }
         this.currentGame = newBoard(config);
         return this.saveState(this);
     }
@@ -80,6 +82,7 @@ class Player {
         if (currentGame) {
             currentGame.board = this.filter(currentGame.board);
         }
+        console.log('games',games)
         games = games.map((game) => {
             game.board = this.filter(game.board);
             return game;

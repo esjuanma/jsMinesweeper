@@ -31,9 +31,9 @@ class App extends React.Component {
     const mines = window.prompt('Mines:', '10');
 
     const config = {
-      body: JSON.stringify({ email, config: { rows, columns, mines }}),
+      body: JSON.stringify({ email, config: { rows, columns, mines } }),
       method: 'POST',
-      headers:{
+      headers: {
         'Content-Type': 'application/json'
       }
     };
@@ -43,8 +43,17 @@ class App extends React.Component {
       .then(this.updatePlayerState);
   }
 
-  onCellClick = () => {
-    fetch(`./api/click/${this.getEmail()}`)
+  onCellClick = ({ x, y }) => {
+    const email = this.getEmail();
+    const config = {
+      body: JSON.stringify({ email, x, y }),
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+
+    fetch(`./api/click/`, config)
       .then(response => response.json())
       .then(this.updatePlayerState);
   }
@@ -56,11 +65,11 @@ class App extends React.Component {
       <div className="App">
         <Header />
         <Player onSubmit={this.onUserChange} />
-        {player && 
-          <button onClick={this.createNewGame}>Create new game</button>}
         {player && player.currentGame &&
           <Game game={player.currentGame} onClick={this.onCellClick} />
         }
+        {player &&
+          <button onClick={this.createNewGame}>Create new game</button>}
       </div>
     );
   }

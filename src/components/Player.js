@@ -14,7 +14,7 @@ const Player = (props) => {
                 Player
                 <input
                     type="email"
-                    value="asd@gmail.com"
+                    value="mail1234@gmail.com"
                     ref={userEmail}
                     placeholder="Type your email" />
             </label>

@@ -1,14 +1,22 @@
 import React from 'react';
 
-const Game = ({ game }) => (
+const Cell = ({ state, onClick }) => (
+    <td className={`cell ${Object.keys(state).join(' ')}`} onClick={onClick}>
+        {state.value || ''}
+    </td>
+);
+
+const Game = ({ game, onClick }) => (
     <table className="game-container">
-        {game.board.map(row => (
-            <tr>
-                {row.map(column => <td className="cell">
-                    {column.mine ? '1' : '0'}
-                </td>)}
-            </tr>
-        ))}
+        <tbody>
+            {game.board.map((row, y) => (
+                <tr>
+                    {row.map(
+                        (cell, x) => <Cell state={cell} onClick={() => onClick({x, y})} />
+                    )}
+                </tr>
+            ))}
+        </tbody>
     </table>
 );
 

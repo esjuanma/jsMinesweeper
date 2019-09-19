@@ -31,3 +31,36 @@
     transform: rotate(360deg);
   }
 }
+
+form {
+  margin-bottom: 20px;
+}
+
+input {
+  margin-left: 10px;
+}
+
+.game-container {
+  margin: 0 auto 20px;
+  border: 1px solid #EEE;
+}
+
+.game-container.ended {
+  pointer-events: none;
+  opacity: .5;
+}
+
+.game-container td {
+  background: #EEE;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+}
+
+.game-container td.revealed {
+  cursor: default;
+}
+
+td.mine::before {
+  content: '💣';
+}
